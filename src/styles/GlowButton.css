@@ -1,0 +1,46 @@
+.glow-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: black;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    overflow: hidden;
+    transition: color 0.4s ease-in-out;
+  }
+  
+  .glow-button:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, red, blue, green, yellow, red);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(10px);
+    animation: rotate 5s linear infinite;
+    transition: opacity 0.4s ease-in-out;
+  }
+  
+  .glow-button:hover {
+    color: black;
+  }
+  
+  .glow-button:hover:before {
+    opacity: 1;
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
