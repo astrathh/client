@@ -16,6 +16,7 @@ function Questionario() {
     handleUserDataChange,
     handleTextInputKeyPress,
     handleChange,
+    handleButtonSubmit,
     setCurrentStep,
     setCurrentQuestion,
     setChat,
@@ -37,6 +38,7 @@ function Questionario() {
             handleTextInputKeyPress={handleTextInputKeyPress}
             handleUserDataChange={handleUserDataChange}
             errors={errors}
+            handleButtonSubmit={handleButtonSubmit}
           />
         )}
         <QuestionarioSteps

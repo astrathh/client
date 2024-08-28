@@ -17,13 +17,6 @@
   height: 100vh;
 }
 
-
-/* retira a imagem se a tela for menor que 768px */
-@media (max-width: 768px) {
-  .background {
-    background-image: none;
-  }
-}
   .custom-button {
     background-color: #cff000;
     color: #000; /* Define a cor do texto */

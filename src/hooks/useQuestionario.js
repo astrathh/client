@@ -22,7 +22,7 @@ export const useQuestionario = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/questions')
+    fetch('https://server-navy-two.vercel.app/api/questions')
       .then(response => response.json())
       .then(data => {
         setQuestions(data);
@@ -47,6 +47,16 @@ export const useQuestionario = () => {
     if (field === 'email' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
       errorMessage = 'Por favor, insira um email válido.';
     }
+    if (field === 'site' && !/^[\w\-]+(\.[\w\-]+)+[/#?]?.*$/.test(value)) {
+      errorMessage = 'Por favor, insira uma URL válida para o site.';
+    } 
+    if (field === 'cargo' && !/^[a-zA-Z\s]+$/.test(value)) {
+      errorMessage = 'Por favor, insira um cargo válido (apenas letras).';
+    }
+    if (field === 'industria' && !/^[a-zA-Z\s]+$/.test(value)) {
+      errorMessage = 'Por favor, insira um setor válido (apenas letras).';
+    }
+    
 
     // Atualizar estado de erro
     setErrors((prevErrors) => ({
@@ -67,7 +77,7 @@ export const useQuestionario = () => {
     let novaPergunta = '';
 
     if (field === 'nome') {
-      novaPergunta = 'Qual o seu telefone?';
+      novaPergunta = 'Qual o seu telefone? (com DDD)';
     } else if (field === 'telefone') {
       novaPergunta = 'Qual o seu email?';
     } else if (field === 'email') {
@@ -108,6 +118,47 @@ export const useQuestionario = () => {
     }
   };
 
+  const handleButtonSubmit = (field, value) => {
+    let errorMessage = '';
+  
+    // Validações (igual ao que já é feito no handleUserDataChange)
+    if (field === 'nome' && !/^[a-zA-Z\s]+$/.test(value)) {
+      errorMessage = 'Por favor, insira um nome válido (apenas letras).';
+    }
+    if (field === 'telefone' && !/^\d{10,11}$/.test(value)) {
+      errorMessage = 'Por favor, insira um telefone válido (10 ou 11 dígitos).';
+    }
+    if (field === 'email' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+      errorMessage = 'Por favor, insira um email válido.';
+    }
+    if (field === 'site' && !/^[\w\-]+(\.[\w\-]+)+[/#?]?.*$/.test(value)) {
+      errorMessage = 'Por favor, insira uma URL válida para o site.';
+    }    
+    if (field === 'cargo' && !/^[a-zA-Z\s]+$/.test(value)) {
+      errorMessage = 'Por favor, insira um cargo válido (apenas letras).';
+    }
+    if (field === 'industria' && !/^[a-zA-Z\s]+$/.test(value)) {
+      errorMessage = 'Por favor, insira um setor válido (apenas letras).';
+    }
+  
+    // Se houver um erro, atualiza o estado de erro e não prossegue
+    if (errorMessage) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: errorMessage,
+      }));
+      return;
+    }
+  
+    // Se não houver erro, prossegue com o fluxo de coleta de dados
+    setUserData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  
+    avancarColetaDados(field, value);
+  };
+
   const handleChange = (temaIndex, perguntaIndex, respostaTexto, valor) => {
     setRespostas((prevRespostas) => {
       const novasRespostas = [...prevRespostas];
@@ -138,16 +189,32 @@ export const useQuestionario = () => {
         ]);
       } else {
         enviarDadosParaWebhook();
-        fetch('http://localhost:5000/api/calculate', {
+        fetch('https://server-navy-two.vercel.app/api/calculate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ respostas })
         })
-          .then(response => response.json())
+          .then(response => {
+            // Verifica se a resposta é JSON antes de tentar fazer o parse
+            if (!response.ok) {
+              // Lida com respostas de erro (status não 2xx)
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              return response.json();
+            } else {
+              throw new Error('A resposta não é JSON');
+            }
+          })
           .then(data => {
             navigate('/relatorio', { state: { resultados: data } });
+          })
+          .catch(error => {
+            console.error('Erro ao processar a requisição:', error);
+            // Tratar o erro adequadamente, como mostrar uma mensagem de erro ao usuário
           });
       }
     }, 1000);
@@ -187,6 +254,7 @@ export const useQuestionario = () => {
     chat,
     handleUserDataChange,
     handleTextInputKeyPress,
+    handleButtonSubmit,
     handleChange,
     avancarParaProximaPergunta,
     enviarDadosParaWebhook,
