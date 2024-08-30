@@ -8,11 +8,11 @@
 }
 
 .backgroundQuest {
-  background-image: url('../assets/backimg.png');
-  background-size: contain; /* Mantém o tamanho da imagem fixa */
-  background-repeat: repeat-x; /* Repete a imagem horizontalmente */
-  background-position: top center; /* Centraliza horizontalmente e alinha ao topo verticalmente */
-  background-attachment: fixed; /* Garante que a imagem não se mova ao rolar a página */
+  background-image: url('../assets/backimg.png'), url('../assets/backimg.png'); /* Usa duas imagens de fundo */
+  background-size: auto; /* Mantém o tamanho original da imagem */
+  background-repeat: no-repeat; /* Evita que as imagens se repitam */
+  background-position: right bottom, left top; /* Posiciona uma imagem à esquerda e outra à direita */
+  background-attachment: fixed; /* Garante que as imagens fiquem fixas ao rolar a página */
   width: 100%;
   height: 100vh;
 }

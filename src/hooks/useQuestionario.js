@@ -22,7 +22,7 @@ export const useQuestionario = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://server-navy-two.vercel.app/api/questions')
+    fetch('https://server-chi-sandy.vercel.app/api/questions')
       .then(response => response.json())
       .then(data => {
         setQuestions(data);
@@ -189,7 +189,7 @@ export const useQuestionario = () => {
         ]);
       } else {
         enviarDadosParaWebhook();
-        fetch('https://server-navy-two.vercel.app/api/calculate', {
+        fetch('https://server-chi-sandy.vercel.app/api/calculate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

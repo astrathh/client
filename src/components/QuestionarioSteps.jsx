@@ -35,7 +35,9 @@ const QuestionarioSteps = ({ currentStep, setCurrentStep, questions, currentQues
                             resposta.valor
                           )
                         }
-                        className="bg-[#cff000] hover:bg-[#e0ff4f] text-black font-bold py-2 px-4 rounded w-full"
+                        //exemplos de efeito de hover
+
+                        className="bg-black hover:opacity-90 text-white font-bold py-2 px-4 rounded w-full"
                       >
                         {resposta.texto}
                       </button>
