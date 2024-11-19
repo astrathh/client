@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinearGradient } from 'react-text-gradients';
 import "../styles/home.css"; // Importe o arquivo de estilos
+import logoFunnels from '../assets/logoFunnels.png'; // Importe o logo do Growth Funnels
 //import GlowButton from '../styles/GlowButton'; // Importe o botão animado
 
 function Home() {
@@ -12,6 +13,15 @@ function Home() {
   };
 
   return (
+    // navbar preta com o logo do Growth Funnels ao fundo
+<div className="background relative w-full min-h-screen from-[#ffffff] flex flex-col items-center justify-center overflow-hidden">
+      {/* Navbar preta com o logo ao canto */}
+      <nav style={{ paddingTop: '5rem' }} className="w-full py-4 px-6 flex justify-center items-center">
+        <div className="flex items-center">
+          <img src={logoFunnels} alt="Logo da Empresa" className="h-8" />
+        </div>
+      </nav>
+
     <div className="background relative w-full min-h-screen from-[#ffffff] flex items-center justify-center overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 py-12 md:py-24 lg:py-32 flex flex-col items-center justify-center text-center space-y-6 border-spacing-2">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-black">
@@ -36,6 +46,7 @@ function Home() {
         <p>&copy; 2024 Growth Agency. Todos os direitos reservados.</p>
       </footer>
     </div>
+  </div>
   )
 }
 

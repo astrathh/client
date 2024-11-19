@@ -42,3 +42,55 @@
     font-size: 0.875rem;
     margin-top: 4px;
   }
+
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+     /* Garantir que cada tema comece em uma nova página */
+    .tema-container {
+      page-break-before: always;
+    }
+
+    /* Evitar que o conteúdo seja dividido no meio */
+    .overall, .chart-container, .tema-container {
+      page-break-inside: avoid;
+    }
+
+    /* Definir estilos de cores e fontes específicas */
+    .background {
+      background-color: white !important; /* fundo branco para impressão */
+    }
+  
+    .text-gray-800 {
+      color: #333 !important;
+    }
+  
+    /* Ajuste de tamanho e margens */
+    .max-w-4xl {
+      max-width: 100%;
+      margin: 0;
+    }
+  
+    .rounded-lg {
+      border-radius: 0 !important;
+    }
+  
+    /* Estilos de tabelas e gráficos */
+    .legend-container ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+  
+    /* Ajuste para esconder botões no PDF */
+    button, iframe {
+      display: none !important;
+    }
+
+    .no-print {
+      display: none;
+    }
+  }
+  
